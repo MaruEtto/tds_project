@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "TDS_Project/FuncLibrary/Types.h"
 #include "TDS_ProjectCharacter.generated.h"
 
 UCLASS(Blueprintable)
@@ -41,16 +42,37 @@ private:
 
 public:
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	EMovementState MovementState = EMovementState::Run_State;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	FCharacterSpeed MovementInfo;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	bool SprintRunEnabled = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	bool WalkEnabled = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	bool AimEnabled = false;
+
 	UFUNCTION()
-	void InputAxisX(float Value);
+		void InputAxisX(float Value);
 	UFUNCTION()
-	void InputAxisY(float Value);
+		void InputAxisY(float Value);
 
 	float AxisX = 0.0f;
 	float AxisY = 0.0f;
 
 	// Tick func
 	UFUNCTION()
-	void MovementTick(float DeltaTime);
-};
+		void MovementTick(float DeltaTime);
 
+	UFUNCTION(BlueprintCallable) // BlueprintCallable позволяет вызвать данную функцию из блупринта
+		void CharacterUpdate();
+	UFUNCTION(BlueprintCallable)
+		void ChangeMovementState();
+
+};

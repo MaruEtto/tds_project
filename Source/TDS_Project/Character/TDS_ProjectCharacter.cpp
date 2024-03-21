@@ -128,3 +128,65 @@ void ATDS_ProjectCharacter::MovementTick(float DeltaTime) //Вызывает функции дви
 		SetActorRotation(FQuat(FRotator(0.0f, FindRotaterResultYaw, 0.0f)));
 	}
 }
+
+void ATDS_ProjectCharacter::CharacterUpdate()
+{
+	float ResSpeed = 600.0f;
+	switch (MovementState)
+	{
+	case EMovementState::Aim_State:
+		ResSpeed = MovementInfo.AimSpeedNormal;
+		break;
+	case EMovementState::AimWalk_State:
+		ResSpeed = MovementInfo.AimSpeedWalk;
+		break;
+	case EMovementState::Walk_State:
+		ResSpeed = MovementInfo.WalkSpeedNormal;
+		break;
+	case EMovementState::Run_State:
+		ResSpeed = MovementInfo.RunSpeedNormal;
+		break;
+	case EMovementState::SprintRun_State:
+		ResSpeed = MovementInfo.RunSpeedSprint;
+		break;
+	default:
+		break;
+	}
+
+	GetCharacterMovement()->MaxWalkSpeed = ResSpeed;
+}
+
+void ATDS_ProjectCharacter::ChangeMovementState()
+{
+	if (!WalkEnabled && !SprintRunEnabled && !AimEnabled) //Если не зажаты другие кнопки, то по дефолту устанавливается скорость бега
+	{
+		MovementState = EMovementState::Run_State;
+	}
+	else
+	{
+		if (SprintRunEnabled) //Если зажат шифт, устанавливается скорость спринта, и запрещается в этом режиме переключаться на прицеливание и ходьбу
+		{
+			WalkEnabled = false;
+			AimEnabled = false;
+			MovementState = EMovementState::SprintRun_State;
+		}
+
+		if (WalkEnabled) //Если зажат альт, устанавливается скорость ходьбы
+		{
+			MovementState = EMovementState::Walk_State;
+		}
+
+		if (WalkEnabled && !SprintRunEnabled && AimEnabled) //Если зажат альт и пкм, устанавливается скорость ходьбы с прицеливанием
+		{
+			MovementState = EMovementState::AimWalk_State;
+		}
+		else
+		{
+			if (!WalkEnabled && !SprintRunEnabled && AimEnabled) //Если зажата пкм, устанавливается скорость с прицеливанием
+			{
+				MovementState = EMovementState::Aim_State;
+			}
+		}
+	}
+	CharacterUpdate();
+}
