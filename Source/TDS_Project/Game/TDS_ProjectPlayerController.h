@@ -27,7 +27,7 @@ protected:
 	void OnResetVR();
 
 	/** Navigate player to the current mouse cursor location. */
-	void MoveToMouseCursor();
+	//void MoveToMouseCursor();
 
 	/** Navigate player to the current touch location. */
 	void MoveToTouchLocation(const ETouchIndex::Type FingerIndex, const FVector Location);

@@ -18,10 +18,10 @@ void ATDS_ProjectPlayerController::PlayerTick(float DeltaTime)
 	Super::PlayerTick(DeltaTime);
 
 	// keep updating the destination every tick while desired
-	if (bMoveToMouseCursor)
+	/*if (bMoveToMouseCursor)
 	{
 		MoveToMouseCursor();
-	}
+	}*/
 }
 
 void ATDS_ProjectPlayerController::SetupInputComponent()
@@ -44,7 +44,7 @@ void ATDS_ProjectPlayerController::OnResetVR()
 	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
 }
 
-void ATDS_ProjectPlayerController::MoveToMouseCursor()
+/*void ATDS_ProjectPlayerController::MoveToMouseCursor()
 {
 	if (UHeadMountedDisplayFunctionLibrary::IsHeadMountedDisplayEnabled())
 	{
@@ -68,7 +68,7 @@ void ATDS_ProjectPlayerController::MoveToMouseCursor()
 			SetNewMoveDestination(Hit.ImpactPoint);
 		}
 	}
-}
+}*/
 
 void ATDS_ProjectPlayerController::MoveToTouchLocation(const ETouchIndex::Type FingerIndex, const FVector Location)
 {
